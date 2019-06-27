@@ -1,0 +1,76 @@
+
+#!/usr/bin/env bash
+
+# 创建临时目录
+TEMP_DIR=$(mktemp -d)
+
+# warnings count
+warnings_count=0
+
+# 空hash
+EMPTY_REF='0000000000000000000000000000000000000000'
+
+# jar路径
+JAVA_HOME=/var/opt/gitlab/git-data/repositories/root/test.git/custom_hooks
+
+# Message
+msg=''
+
+while read oldrev newrev ref
+do
+    #当push新分支的时候oldrev会不存在，删除时newrev就不存在
+    if [[ $oldrev != $EMPTY_REF && $newrev != $EMPTY_REF ]]; then
+        echo -e "\n${PURPLE}CodeSniffer check result:${COLOR_END}"
+        # 被检查了的文件数
+        checked_file_count=0
+        # 找出哪些文件被更新了
+        for line in $(git diff-tree -r $oldrev..$newrev | grep -oP '.*\.(java)' | awk '{print $5$6}')
+        do
+            # 文件状态
+            # D: deleted
+            # A: added
+            # M: modified
+            status=$(echo $line | grep -o '^.')
+
+            # 不检查被删除的文件
+            if [[ $status == 'D' ]]; then
+                continue
+            fi
+
+            # 文件名
+            file=$(echo $line | sed 's/^.//')
+
+            # 为文件创建目录
+            mkdir -p $(dirname $TEMP_DIR/$file)
+            # 保存文件内容
+            git show $newrev:$file > $TEMP_DIR/$file
+            # 执行检查脚本
+output=$(java -Dfile.encoding=utf-8 -cp "$JAVA_HOME"/pmd.jar net.sourceforge.pmd.PMD -R rulesets/java/ali-comment.xml,rulesets/java/ali-concurrent.xml,rulesets/java/ali-constant.xml,rulesets/java/ali-exception.xml,rulesets/java/ali-flowcontrol.xml,rulesets/java/ali-naming.xml,rulesets/java/ali-oop.xml,rulesets/java/ali-orm.xml,rulesets/java/ali-other.xml,rulesets/java/ali-set.xml -d $TEMP_DIR/$file)
+
+            if [[ $output ]]; then
+
+            let "warnings_count = warnings_count + 1"
+            msg=$msg$output
+            fi
+
+            let "checked_file_count = checked_file_count + 1";
+
+         done
+
+
+    fi
+done
+
+# 删除临时目录
+# rm -rf $TEMP_DIR
+#
+
+ if [[ $warnings_count > 0 ]]; then
+     echo -e " Check Error!!!: $msg "
+         exit 1
+  fi
+
+         exit 0
+#
+
+
