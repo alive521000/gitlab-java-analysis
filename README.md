@@ -1,34 +1,34 @@
 # gitlab-java-analysis
 A gitlab plugin for static analysis of java code
-»ùÓÚgitlabµÄ,Í¨shell½Å±¾µ÷ÓÃjavaÓïÑÔ½øĞĞ´úÂëÌá½»µÄ¹æ·¶¼ì²é
+åŸºäºgitlabçš„é’©å­ç¨‹åº,é€šshellè„šæœ¬è°ƒç”¨jarè¿›è¡Œä»£ç æäº¤çš„è§„èŒƒæ£€æŸ¥,é›†æˆäº†é˜¿é‡Œçš„Javaä»£ç å¼€å‘è§„èŒƒ,å¯ä»¥æ§åˆ¶ä»£ç ä¸ç¬¦åˆè§„èŒƒå†…å®¹æäº¤ä¸ä¸Šå»;
 
 
 
-## ²¿Êğ²½Öè
-### 1. Gitlab ÉÏ°²×°JDK  
-Í¨¹ıjava -version È·¶¨ÊÇ·ñ°²×°³É¹¦
+## éƒ¨ç½²æ­¥éª¤
+### 1. Gitlab ä¸Šå®‰è£…JDK  
+é€šè¿‡java -version ç¡®å®šæ˜¯å¦å®‰è£…æˆåŠŸ
 
-ÀıÈç³öÏÖÒÔÏÂÀàËÆĞÅÏ¢´ú±í°²×°³É¹¦£º
+ä¾‹å¦‚å‡ºç°ä»¥ä¸‹ç±»ä¼¼ä¿¡æ¯ä»£è¡¨å®‰è£…æˆåŠŸï¼š
 ```
 java version "1.8.0_121"
 Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode) 
 ```
 
-### 2. ²¿Êğshell½Å±¾
-2.1 ÕÒµ½gitlab·şÎñĞèÒªĞ£ÑéµÄ´úÂë²Ö¿âµØÖ·
+### 2. éƒ¨ç½²shellè„šæœ¬
+2.1 æ‰¾åˆ°gitlabæœåŠ¡éœ€è¦æ ¡éªŒçš„ä»£ç ä»“åº“åœ°å€
 
-ÀıÈç£ºtest.gitÏîÄ¿
+ä¾‹å¦‚ï¼štest.gité¡¹ç›®
 ```
 /var/opt/gitlab/git-data/repositories/root/test.git
 ```
-2.2 copy  check-lib/p3c-pmd-1.3.6.jar µ½gitlab·şÎñÉÏ
+2.2 copy  check-lib/p3c-pmd-1.3.6.jar åˆ°gitlabæœåŠ¡ä¸Š
 ```
 check-lib/p3c-pmd-1.3.6.jar
 ```
-2.3 ´ò¿ªgitlab-plugin/pre-receiveÎÄ¼şĞŞ¸ÄjarÂ·¾¶
+2.3 æ‰“å¼€gitlab-plugin/pre-receiveæ–‡ä»¶ä¿®æ”¹jarè·¯å¾„
 
-ÀıÈç£º
+ä¾‹å¦‚ï¼š
 ```
 JAVA_HOME=/var/opt/gitlab/git-data/repositories/root/test.git/custom_hooks
 ```
